@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Андрей Григорьев](https://up.htmlacademy.ru/javascript/21/user/1520595).
-* Наставник: `Неизвестно`.
+* Наставник: [Полина Прокофьева](https://htmlacademy.ru/profile/id1322073).
 
 ---
 
