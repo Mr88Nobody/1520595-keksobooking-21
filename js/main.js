@@ -59,12 +59,8 @@ const createАdvertisements = () => {
   return arrayАdvertisements;
 };
 
-const map = document.querySelector(`.map`);
-const mapPinTemplate = document.querySelector(`.map__pin`);
-const mapPins = document.querySelector(`.map__pins`);
-const fragment = document.createDocumentFragment();
-
 const renderPin = (advertisement) => {
+  const mapPinTemplate = document.querySelector(`.map__pin`);
   const pin = mapPinTemplate.cloneNode(true);
 
   pin.style.left = advertisement.location.x + X_COORDS + `px`;
@@ -74,20 +70,21 @@ const renderPin = (advertisement) => {
   img.src = advertisement.author.avatar;
   img.alt = advertisement.offer.title;
 
-
   return pin;
 };
 
 const renderPins = () => {
   const advertisements = createАdvertisements();
+  const fragment = document.createDocumentFragment();
+  const mapPins = document.querySelector(`.map__pins`);
 
   for (let i = 0; i < QUANTITY_ADVERTISEMENTS; i++) {
     fragment.append(renderPin(advertisements[i]));
   }
+  mapPins.append(fragment);
 };
 
 renderPins();
 
-mapPins.append(fragment);
-
+const map = document.querySelector(`.map`);
 map.classList.remove(`map--faded`);
