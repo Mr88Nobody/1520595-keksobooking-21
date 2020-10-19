@@ -10,6 +10,12 @@ const Y_COORDS = Math.round(65 / 2 + 18);
 const MIN_TITLE_LENGTH = 30;
 const MAX_TITLE_LENGTH = 100;
 const MAX_PRICE = 1000000;
+const MIN_PRICES = {
+  palace: 10000,
+  house: 5000,
+  flat: 1000,
+  bungalow: 0
+};
 
 const getRandomNumber = (min, max) => {
   min = Math.ceil(min);
@@ -92,20 +98,24 @@ const activetePage = () => {
   const mapFilters = document.querySelector(`.map__filters`).children;
   const fieldsets = document.querySelectorAll(`fieldset`);
   const adForm = document.querySelector(`.ad-form`);
+  const address = document.querySelector(`#address`);
+  address.value = `450, 350`; // Нужно сделать функцию получения адреса?
 
   const makeActive = () => {
-    map.classList.remove(`map--faded`);
-    adForm.classList.remove(`ad-form--disabled`);
-    renderPins();
-    for (const fieldset of fieldsets) {
-      fieldset.removeAttribute(`disabled`, `disabled`);
-    }
-    for (const elementMapFilters of mapFilters) {
-      elementMapFilters.removeAttribute(`disabled`, `disabled`);
+    if (map.classList.contains(`map--faded`)) {
+      map.classList.remove(`map--faded`);
+      adForm.classList.remove(`ad-form--disabled`);
+      renderPins();
+      for (const fieldset of fieldsets) {
+        fieldset.removeAttribute(`disabled`, `disabled`);
+      }
+      for (const elementMapFilters of mapFilters) {
+        elementMapFilters.removeAttribute(`disabled`, `disabled`);
+      }
     }
   };
 
-  if (adForm.classList.contains(`ad-form--disabled`)) {
+  if (map.classList.contains(`map--faded`)) {
     for (const elementMapFilters of mapFilters) {
       elementMapFilters.setAttribute(`disabled`, `disabled`);
     }
@@ -152,27 +162,30 @@ const getPrice = () => {
   typeRent.addEventListener(`change`, () => {
     switch (typeRent.value) {
       case `bungalow`:
-        priceRent.value = 0;
+        priceRent.value = MIN_PRICES.bungalow;
         priceRent.setCustomValidity(`Бесплатно`);
         priceRent.reportValidity();
         break;
       case `flat`:
-        priceRent.value = 1000;
-        priceRent.min = 1000;
+        priceRent.value = MIN_PRICES.flat;
+        priceRent.min = MIN_PRICES.flat;
         priceRent.setCustomValidity(`Минимальная цена за ночь одна тысяча рублей`);
         priceRent.reportValidity();
         break;
       case `house`:
-        priceRent.value = 5000;
-        priceRent.min = 5000;
+        priceRent.value = MIN_PRICES.house;
+        priceRent.min = MIN_PRICES.house;
         priceRent.setCustomValidity(`Минимальная цена за ночь пять тысяч рублей`);
         priceRent.reportValidity();
         break;
       case `palace`:
-        priceRent.value = 10000;
-        priceRent.min = 10000;
+        priceRent.value = MIN_PRICES.palace;
+        priceRent.min = MIN_PRICES.palace;
         priceRent.setCustomValidity(`Минимальная цена за ночь десять тысяч рублей`);
         priceRent.reportValidity();
+        break;
+      default:
+        priceRent.setCustomValidity(``);
         break;
     }
   });
@@ -229,6 +242,10 @@ const getCapacity = () => {
       case `3`:
         capacity.setCustomValidity(`Можете выбрать только 3 комнаты`);
         break;
+      default:
+        capacity.setCustomValidity(``);
+        break;
+
     }
     capacity.reportValidity();
   });
@@ -246,6 +263,9 @@ const getCapacity = () => {
         break;
       case `3`:
         rooms.setCustomValidity(`Для троих, двоих или одного человека`);
+        break;
+      default:
+        rooms.setCustomValidity(``);
         break;
     }
     rooms.reportValidity();
