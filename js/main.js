@@ -163,29 +163,45 @@ const getPrice = () => {
     switch (typeRent.value) {
       case `bungalow`:
         priceRent.value = MIN_PRICES.bungalow;
-        priceRent.setCustomValidity(`Бесплатно`);
-        priceRent.reportValidity();
+        if (priceRent.value > priceRent.min) {
+          typeRent.setCustomValidity(`Бесплатно`);
+          typeRent.reportValidity();
+        } else {
+          typeRent.setCustomValidity(``);
+        }
         break;
       case `flat`:
         priceRent.value = MIN_PRICES.flat;
         priceRent.min = MIN_PRICES.flat;
-        priceRent.setCustomValidity(`Минимальная цена за ночь одна тысяча рублей`);
-        priceRent.reportValidity();
+        if (priceRent.value < priceRent.min) {
+          typeRent.setCustomValidity(`Минимальная цена за ночь одна тысяча рублей`);
+          typeRent.reportValidity();
+        } else {
+          typeRent.setCustomValidity(``);
+        }
         break;
       case `house`:
         priceRent.value = MIN_PRICES.house;
         priceRent.min = MIN_PRICES.house;
-        priceRent.setCustomValidity(`Минимальная цена за ночь пять тысяч рублей`);
-        priceRent.reportValidity();
+        if (priceRent.value < priceRent.min) {
+          typeRent.setCustomValidity(`Минимальная цена за ночь пять тысяч рублей`);
+          typeRent.reportValidity();
+        } else {
+          typeRent.setCustomValidity(``);
+        }
         break;
       case `palace`:
         priceRent.value = MIN_PRICES.palace;
         priceRent.min = MIN_PRICES.palace;
-        priceRent.setCustomValidity(`Минимальная цена за ночь десять тысяч рублей`);
-        priceRent.reportValidity();
+        if (priceRent.value < priceRent.min) {
+          typeRent.setCustomValidity(`Минимальная цена за ночь десять тысяч рублей`);
+          typeRent.reportValidity();
+        } else {
+          typeRent.setCustomValidity(``);
+        }
         break;
       default:
-        priceRent.setCustomValidity(``);
+        typeRent.setCustomValidity(``);
         break;
     }
   });
@@ -230,17 +246,52 @@ const getCapacity = () => {
 
   capacity.addEventListener(`change`, () => {
     switch (capacity.value) {
-      case `0`:
-        capacity.setCustomValidity(`100 комнат`);
-        break;
       case `1`:
-        capacity.setCustomValidity(`Можете выбрать 1, 2, 3 комнаты`);
+        if (rooms.value === `100`) {
+          capacity.setCustomValidity(`Не для гостей`);
+          capacity.reportValidity();
+        } else {
+          capacity.setCustomValidity(``);
+        }
         break;
       case `2`:
-        capacity.setCustomValidity(`Можете выбрать 2 или 3 комнаты`);
+        if (rooms.value === `1`) {
+          capacity.setCustomValidity(`Можете выбрать только 2, 3 комнаты`);
+          capacity.reportValidity();
+        } else if (rooms.value === `100`) {
+          capacity.setCustomValidity(`Не для гостей`);
+          capacity.reportValidity();
+        } else {
+          capacity.setCustomValidity(``);
+        }
         break;
       case `3`:
-        capacity.setCustomValidity(`Можете выбрать только 3 комнаты`);
+        if (rooms.value === `2`) {
+          capacity.setCustomValidity(`Можете выбрать только 3 комнаты`);
+          capacity.reportValidity();
+        } else if (rooms.value === `1`) {
+          capacity.setCustomValidity(`Можете выбрать только 3 комнаты`);
+          capacity.reportValidity();
+        } else if (rooms.value === `100`) {
+          capacity.setCustomValidity(`Не для гостей`);
+          capacity.reportValidity();
+        } else {
+          capacity.setCustomValidity(``);
+        }
+        break;
+      case `0`:
+        if (rooms.value === `1`) {
+          capacity.setCustomValidity(`Только 100 комнат`);
+          capacity.reportValidity();
+        } else if (rooms.value === `2`) {
+          capacity.setCustomValidity(`Только 100 комнат`);
+          capacity.reportValidity();
+        } else if (rooms.value === `3`) {
+          capacity.setCustomValidity(`Только 100 комнат`);
+          capacity.reportValidity();
+        } else {
+          capacity.setCustomValidity(``);
+        }
         break;
       default:
         capacity.setCustomValidity(``);
@@ -250,26 +301,26 @@ const getCapacity = () => {
     capacity.reportValidity();
   });
 
-  rooms.addEventListener(`change`, () => {
-    switch (rooms.value) {
-      case `100`:
-        rooms.setCustomValidity(`Не для гостей`);
-        break;
-      case `1`:
-        rooms.setCustomValidity(`Только для одного человека`);
-        break;
-      case `2`:
-        rooms.setCustomValidity(`Для двоих или одного человек`);
-        break;
-      case `3`:
-        rooms.setCustomValidity(`Для троих, двоих или одного человека`);
-        break;
-      default:
-        rooms.setCustomValidity(``);
-        break;
-    }
-    rooms.reportValidity();
-  });
+  // rooms.addEventListener(`change`, () => {
+  //   switch (rooms.value) {
+  //     case `100`:
+  //       rooms.setCustomValidity(`Не для гостей`);
+  //       break;
+  //     case `1`:
+  //       rooms.setCustomValidity(`Только для одного человека`);
+  //       break;
+  //     case `2`:
+  //       rooms.setCustomValidity(`Для двоих или одного человек`);
+  //       break;
+  //     case `3`:
+  //       rooms.setCustomValidity(`Для троих, двоих или одного человека`);
+  //       break;
+  //     default:
+  //       rooms.setCustomValidity(``);
+  //       break;
+  //   }
+  //   rooms.reportValidity();
+  // });
 };
 
 activetePage();
