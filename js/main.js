@@ -92,14 +92,16 @@ const renderPins = () => {
   mapPins.append(fragment);
 };
 
-const activetePage = () => {
+const activatePage = () => {
   const mapPinMain = document.querySelector(`.map__pin--main`);
   const map = document.querySelector(`.map`);
   const mapFilters = document.querySelector(`.map__filters`).children;
   const fieldsets = document.querySelectorAll(`fieldset`);
   const adForm = document.querySelector(`.ad-form`);
   const address = document.querySelector(`#address`);
-  address.value = `450, 350`; // Нужно сделать функцию получения адреса?
+  const left = parseFloat(mapPinMain.style.left);
+  const top = parseFloat(mapPinMain.style.top);
+  address.value = `${left - X_COORDS}, ${top - Y_COORDS}`;
 
   const makeActive = () => {
     if (map.classList.contains(`map--faded`)) {
@@ -162,58 +164,38 @@ const getPrice = () => {
   typeRent.addEventListener(`change`, () => {
     switch (typeRent.value) {
       case `bungalow`:
-        priceRent.value = MIN_PRICES.bungalow;
-        if (priceRent.value > priceRent.min) {
-          typeRent.setCustomValidity(`Бесплатно`);
-          typeRent.reportValidity();
-        } else {
-          typeRent.setCustomValidity(``);
-        }
+        priceRent.placeholder = MIN_PRICES.bungalow;
+        priceRent.min = MIN_PRICES.bungalow;
         break;
       case `flat`:
-        priceRent.value = MIN_PRICES.flat;
+        priceRent.placeholder = MIN_PRICES.flat;
         priceRent.min = MIN_PRICES.flat;
-        if (priceRent.value < priceRent.min) {
-          typeRent.setCustomValidity(`Минимальная цена за ночь одна тысяча рублей`);
-          typeRent.reportValidity();
-        } else {
-          typeRent.setCustomValidity(``);
-        }
         break;
       case `house`:
-        priceRent.value = MIN_PRICES.house;
+        priceRent.placeholder = MIN_PRICES.house;
         priceRent.min = MIN_PRICES.house;
-        if (priceRent.value < priceRent.min) {
-          typeRent.setCustomValidity(`Минимальная цена за ночь пять тысяч рублей`);
-          typeRent.reportValidity();
-        } else {
-          typeRent.setCustomValidity(``);
-        }
         break;
       case `palace`:
-        priceRent.value = MIN_PRICES.palace;
+        priceRent.placeholder = MIN_PRICES.palace;
         priceRent.min = MIN_PRICES.palace;
-        if (priceRent.value < priceRent.min) {
-          typeRent.setCustomValidity(`Минимальная цена за ночь десять тысяч рублей`);
-          typeRent.reportValidity();
-        } else {
-          typeRent.setCustomValidity(``);
-        }
         break;
       default:
-        typeRent.setCustomValidity(``);
+        priceRent.placeholder = MIN_PRICES.bungalow;
         break;
     }
   });
 
   priceRent.addEventListener(`input`, () => {
     const valuePrice = priceRent.value;
-    if (valuePrice > MAX_PRICE) {
-      priceRent.setCustomValidity(`Максимальная цена за ночь один миллион рублей`);
+    let messageValidity = ``;
+    if (valuePrice < priceRent.min) {
+      messageValidity = `Минимальная цена за ночь ${priceRent.min} рублей`;
+    } else if (valuePrice > MAX_PRICE) {
+      messageValidity = `Максимальная цена за ночь ${MAX_PRICE} рублей`;
     } else {
-      priceRent.setCustomValidity(``);
+      messageValidity = ``;
     }
-
+    priceRent.setCustomValidity(messageValidity);
     priceRent.reportValidity();
   });
 };
@@ -245,85 +227,57 @@ const getCapacity = () => {
   const capacity = document.querySelector(`#capacity`);
 
   capacity.addEventListener(`change`, () => {
+    let messageValidity = ``;
+
     switch (capacity.value) {
       case `1`:
         if (rooms.value === `100`) {
-          capacity.setCustomValidity(`Не для гостей`);
-          capacity.reportValidity();
+          messageValidity = `Не для гостей`;
         } else {
-          capacity.setCustomValidity(``);
+          messageValidity = ``;
         }
         break;
       case `2`:
         if (rooms.value === `1`) {
-          capacity.setCustomValidity(`Можете выбрать только 2, 3 комнаты`);
-          capacity.reportValidity();
+          messageValidity = `Можете выбрать только 2, 3 комнаты`;
         } else if (rooms.value === `100`) {
-          capacity.setCustomValidity(`Не для гостей`);
-          capacity.reportValidity();
+          messageValidity = `Не для гостей`;
         } else {
-          capacity.setCustomValidity(``);
+          messageValidity = ``;
         }
         break;
       case `3`:
         if (rooms.value === `2`) {
-          capacity.setCustomValidity(`Можете выбрать только 3 комнаты`);
-          capacity.reportValidity();
+          messageValidity = `Можете выбрать только 3 комнаты`;
         } else if (rooms.value === `1`) {
-          capacity.setCustomValidity(`Можете выбрать только 3 комнаты`);
-          capacity.reportValidity();
+          messageValidity = `Можете выбрать только 3 комнаты`;
         } else if (rooms.value === `100`) {
-          capacity.setCustomValidity(`Не для гостей`);
-          capacity.reportValidity();
+          messageValidity = `Не для гостей`;
         } else {
-          capacity.setCustomValidity(``);
+          messageValidity = ``;
         }
         break;
       case `0`:
         if (rooms.value === `1`) {
-          capacity.setCustomValidity(`Только 100 комнат`);
-          capacity.reportValidity();
+          messageValidity = `Только 100 комнат`;
         } else if (rooms.value === `2`) {
-          capacity.setCustomValidity(`Только 100 комнат`);
-          capacity.reportValidity();
+          messageValidity = `Только 100 комнат`;
         } else if (rooms.value === `3`) {
-          capacity.setCustomValidity(`Только 100 комнат`);
-          capacity.reportValidity();
+          messageValidity = `Только 100 комнат`;
         } else {
-          capacity.setCustomValidity(``);
+          messageValidity = ``;
         }
         break;
       default:
-        capacity.setCustomValidity(``);
+        messageValidity = ``;
         break;
-
     }
+    capacity.setCustomValidity(messageValidity);
     capacity.reportValidity();
   });
-
-  // rooms.addEventListener(`change`, () => {
-  //   switch (rooms.value) {
-  //     case `100`:
-  //       rooms.setCustomValidity(`Не для гостей`);
-  //       break;
-  //     case `1`:
-  //       rooms.setCustomValidity(`Только для одного человека`);
-  //       break;
-  //     case `2`:
-  //       rooms.setCustomValidity(`Для двоих или одного человек`);
-  //       break;
-  //     case `3`:
-  //       rooms.setCustomValidity(`Для троих, двоих или одного человека`);
-  //       break;
-  //     default:
-  //       rooms.setCustomValidity(``);
-  //       break;
-  //   }
-  //   rooms.reportValidity();
-  // });
 };
 
-activetePage();
+activatePage();
 getPrice();
 checkTime();
 getCapacity();
