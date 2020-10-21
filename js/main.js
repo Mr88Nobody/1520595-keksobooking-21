@@ -162,31 +162,15 @@ const getPrice = () => {
   const typeRent = document.querySelector(`#type`);
 
   typeRent.addEventListener(`change`, () => {
-    switch (typeRent.value) {
-      case `bungalow`:
-        priceRent.placeholder = MIN_PRICES.bungalow;
-        priceRent.min = MIN_PRICES.bungalow;
-        break;
-      case `flat`:
-        priceRent.placeholder = MIN_PRICES.flat;
-        priceRent.min = MIN_PRICES.flat;
-        break;
-      case `house`:
-        priceRent.placeholder = MIN_PRICES.house;
-        priceRent.min = MIN_PRICES.house;
-        break;
-      case `palace`:
-        priceRent.placeholder = MIN_PRICES.palace;
-        priceRent.min = MIN_PRICES.palace;
-        break;
-      default:
-        priceRent.placeholder = MIN_PRICES.bungalow;
-        break;
+    priceRent.placeholder = MIN_PRICES[typeRent.value];
+    priceRent.min = priceRent.placeholder;
+    if (typeRent.value === `bungalow`) {
+      priceRent.placeholder = MIN_PRICES.bungalow;
     }
   });
 
   priceRent.addEventListener(`input`, () => {
-    const valuePrice = priceRent.value;
+    const valuePrice = parseFloat(priceRent.value);
     let messageValidity = ``;
     if (valuePrice < priceRent.min) {
       messageValidity = `Минимальная цена за ночь ${priceRent.min} рублей`;
