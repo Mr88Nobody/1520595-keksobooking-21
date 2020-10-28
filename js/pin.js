@@ -20,7 +20,6 @@
 
   const displayPins = () => {
     const renderPins = (advertisements) => {
-      // const advertisements = window.data.createАdvertisements();
       const fragment = document.createDocumentFragment();
       const mapPins = document.querySelector(`.map__pins`);
 
@@ -42,7 +41,8 @@
       document.body.insertAdjacentElement(`afterbegin`, node);
     };
     window.pin = {
-      renderPins
+      renderPins,
+      errorHandler
     };
 
     window.load.loadData(renderPins, errorHandler);
