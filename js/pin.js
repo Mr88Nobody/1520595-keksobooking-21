@@ -1,8 +1,8 @@
 'use strict';
 
 (() => {
-  const X_COORDS = Math.round(65 / 2);
-  const Y_COORDS = Math.round(65 / 2 + 18);
+  const X_COORDS = Math.round(62 / 2);
+  const Y_COORDS = Math.round(62 / 2 + 18);
 
   const renderPin = (advertisement) => {
     const mapPinTemplate = document.querySelector(`.map__pin`);
@@ -19,8 +19,8 @@
   };
 
   const displayPins = () => {
-    const renderPins = () => {
-      const advertisements = window.data.createАdvertisements();
+    const renderPins = (advertisements) => {
+      // const advertisements = window.data.createАdvertisements();
       const fragment = document.createDocumentFragment();
       const mapPins = document.querySelector(`.map__pins`);
 
@@ -29,6 +29,7 @@
       }
       mapPins.append(fragment);
     };
+
     const errorHandler = (errorMessage) => {
       const node = document.createElement(`div`);
       node.style = `z-index: 100; margin: 0 auto; text-align: center; background-color: red;`;
@@ -39,6 +40,9 @@
 
       node.textContent = errorMessage;
       document.body.insertAdjacentElement(`afterbegin`, node);
+    };
+    window.pin = {
+      renderPins
     };
 
     window.load.loadData(renderPins, errorHandler);

@@ -8,8 +8,12 @@
   const TIMEOUT = 10000;
 
   const loadData = (onSuccess, onError) => {
-    onSuccess = () => {};
-    onError = () => {};
+    onSuccess = (advertisements) => {
+      window.pin.renderPins(advertisements);
+    };
+    onError = (message) => {
+      console.log(message);
+    };
 
     const xhr = new XMLHttpRequest();
     xhr.responseType = `json`;
@@ -34,6 +38,7 @@
     xhr.send();
   };
   window.load = {
-    loadData
+    loadData,
+    URL_SERVER
   };
 })();

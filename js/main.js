@@ -6,5 +6,4 @@
   window.form.getPrice();
   window.form.checkTime();
   window.form.getCapacity();
-  window.load.loadData();
 })();
