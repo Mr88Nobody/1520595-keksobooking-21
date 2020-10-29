@@ -16,7 +16,7 @@
       if (map.classList.contains(`map--faded`)) {
         map.classList.remove(`map--faded`);
         adForm.classList.remove(`ad-form--disabled`);
-        window.pin.renderPins();
+        window.load.loadData(window.pin.renderPins, window.pin.errorHandler);
         for (const fieldset of fieldsets) {
           fieldset.removeAttribute(`disabled`, `disabled`);
         }
