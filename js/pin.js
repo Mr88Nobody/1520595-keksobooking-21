@@ -18,38 +18,31 @@
     return pin;
   };
 
-  const displayPins = () => {
-    const renderPins = (advertisements) => {
-      const fragment = document.createDocumentFragment();
-      const mapPins = document.querySelector(`.map__pins`);
+  const renderPins = (advertisements) => {
+    const fragment = document.createDocumentFragment();
+    const mapPins = document.querySelector(`.map__pins`);
 
-      for (let i = 0; i < window.data.QUANTITY_ADVERTISEMENTS; i++) {
-        fragment.append(renderPin(advertisements[i]));
-      }
-      mapPins.append(fragment);
-    };
+    for (let i = 0; i < window.data.QUANTITY_ADVERTISEMENTS; i++) {
+      fragment.append(renderPin(advertisements[i]));
+    }
+    mapPins.append(fragment);
+  };
 
-    const errorHandler = (errorMessage) => {
-      const node = document.createElement(`div`);
-      node.style = `z-index: 100; margin: 0 auto; text-align: center; background-color: red;`;
-      node.style.position = `absolute`;
-      node.style.left = 0;
-      node.style.right = 0;
-      node.style.fontSize = `30px`;
+  const errorHandler = (errorMessage) => {
+    const node = document.createElement(`div`);
+    node.style = `z-index: 100; margin: 0 auto; text-align: center; background-color: red;`;
+    node.style.position = `absolute`;
+    node.style.left = 0;
+    node.style.right = 0;
+    node.style.fontSize = `30px`;
 
-      node.textContent = errorMessage;
-      document.body.insertAdjacentElement(`afterbegin`, node);
-    };
-    window.pin = {
-      renderPins,
-      errorHandler
-    };
-
-    window.load.loadData(renderPins, errorHandler);
+    node.textContent = errorMessage;
+    document.body.insertAdjacentElement(`afterbegin`, node);
   };
 
   window.pin = {
-    displayPins,
+    renderPins,
+    errorHandler,
     X_COORDS,
     Y_COORDS
   };
