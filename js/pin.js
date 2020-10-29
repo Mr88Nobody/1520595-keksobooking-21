@@ -1,8 +1,8 @@
 'use strict';
 
 (() => {
-  const X_COORDS = Math.round(62 / 2);
-  const Y_COORDS = Math.round(62 / 2 + 18);
+  const X_COORDS = 31;
+  const Y_COORDS = 49;
 
   const renderPin = (advertisement) => {
     const mapPinTemplate = document.querySelector(`.map__pin`);
