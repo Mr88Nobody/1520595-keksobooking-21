@@ -45,10 +45,7 @@
     checkTime.textContent = `Заезд после ${advertisement.offer.checkin}, выезд до ${advertisement.offer.checkout}`;
 
     const features = card.querySelector(`.popup__features`);
-    for (let i = 0; i < advertisement.offer.features.length; i++) {
-      const featuresElement = advertisement.offer.features[i];
-      features.textContent = featuresElement;
-    }
+    features.textContent = advertisement.offer.features;
 
     const description = card.querySelector(`.popup__description`);
     description.textContent = advertisement.offer.description;
@@ -58,6 +55,9 @@
       const srcPhotoElement = advertisement.offer.photos[i];
       img.src = srcPhotoElement;
     }
+
+    const avatar = card.querySelector(`.popup__avatar`);
+    avatar.src = advertisement.author.avatar;
 
     return card;
   };

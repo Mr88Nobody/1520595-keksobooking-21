@@ -26,7 +26,7 @@
       fragment.append(renderPin(advertisements[i]));
     }
     mapPins.append(fragment);
-    window.card.renderCard(advertisements[0]);
+    window.card.renderCard(advertisements[8]);
   };
 
   const errorHandler = (errorMessage) => {
