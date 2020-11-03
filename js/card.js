@@ -53,7 +53,7 @@
     const description = card.querySelector(`.popup__description`);
     description.textContent = advertisement.offer.description;
 
-    const img = card.querySelector(`.popup__photos`);
+    const img = card.querySelector(`.popup__photo`);
     for (let i = 0; i < advertisement.offer.photos.length; i++) {
       const srcPhotoElement = advertisement.offer.photos[i];
       img.src = srcPhotoElement;
