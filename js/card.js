@@ -50,11 +50,26 @@
     const description = card.querySelector(`.popup__description`);
     description.textContent = advertisement.offer.description;
 
-    const img = card.querySelector(`.popup__photo`);
-    for (let i = 0; i < advertisement.offer.photos.length; i++) {
-      const srcPhotoElement = advertisement.offer.photos[i];
-      img.src = srcPhotoElement;
-    }
+    const getImg = () => {
+      const imgCardTemplate = card.querySelector(`.popup__photo`);
+      const img = imgCardTemplate.cloneNode(true);
+      for (let i = 0; i < advertisement.offer.photos.length; i++) {
+        const srcImg = advertisement.offer.photos[i];
+        img.src = srcImg;
+        imgCardTemplate.src = srcImg;
+      }
+      return img;
+    };
+
+    const getAllImg = () => {
+      const popupPhotos = card.querySelector(`.popup__photos`);
+      const fragment = document.createDocumentFragment();
+      for (let i = 0; i < advertisement.offer.photos.length; i++) {
+        fragment.append(getImg());
+      }
+      popupPhotos.append(fragment);
+    };
+    getAllImg();
 
     const avatar = card.querySelector(`.popup__avatar`);
     avatar.src = advertisement.author.avatar;
